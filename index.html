@@ -1,142 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Itzel Test</title>
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      touch-action: none; /* evita scroll accidental */
-    }
-    canvas {
-      border: 2px solid #444;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-      display: block;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itzel Mwmilo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="html/navbar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
-  <!-- El canvas mantiene resolución interna fija -->
-  <canvas id="parallaxCanvas" width="1080" height="1080"></canvas>
+    <div class="background"></div>
 
-  <script>
-    const canvas = document.getElementById("parallaxCanvas");
-    const ctx = canvas.getContext("2d");
+    <main>
+        <section class="content">
+            <h1 class="title">ITZEL<br><span>MWMILO</span></h1>
+            <p>
+                ¡Holaa! Soy Itzel Mwmilo <br>
+                Me dedico al doblaje, actuación de voz, dibujo y todo lo creativo. Amo la actuación y el ballet, y
+                siempre estoy soñando y buscando crecer, tanto como persona, como artista. Aquí vas a encontrar mis
+                proyectos, mi arte y todo lo que me inspira. ¡Espero que lo disfruten tanto como yo disfruto creándolo!
+            </p>
 
-    // Escalar canvas al estilo Phaser "FIT"
-    function resizeCanvas() {
-      const aspect = canvas.width / canvas.height;
-      let newWidth = window.innerWidth;
-      let newHeight = window.innerHeight;
+            <div class="socials">
+                <a href="https://www.instagram.com/itzel_mwmilo?igsh=MWVlNzZuam40MDkzMA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@itzel_mwmilo?_t=ZS-90JGTOxcku0&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://youtube.com/@itzel_mwmilo?si=BmsFaXZqcHADoG7r" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </section>
 
-      if (newWidth / newHeight > aspect) {
-        newWidth = newHeight * aspect;
-      } else {
-        newHeight = newWidth / aspect;
-      }
+        <div class="character">
+            <img src="img/index/Zisi.png" alt="Personaje" />
+        </div>
+    </main>
 
-      canvas.style.width = newWidth + "px";
-      canvas.style.height = newHeight + "px";
-    }
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    // Configuración de imágenes
-    const config = {
-      img1: {
-        src: "img/character.png",
-        x: 200,
-        y: 80,
-        scale: 1,
-        speed: 0.03,
-        zIndex: 1
-      },
-      img2: {
-        src: "img/varas.png",
-        x: -80,
-        y: -210,
-        scale: 1.3,
-        speed: 0.10,
-        zIndex: 2
-      }
-    };
-
-    const images = {
-      img1: new Image(),
-      img2: new Image()
-    };
-
-    let mouse = { x: 0, y: 0 };
-    let loaded = 0;
-
-    // Cargar imágenes
-    Object.keys(images).forEach((key) => {
-      images[key].src = config[key].src;
-      images[key].onload = () => {
-        loaded++;
-        if (loaded === 2) draw();
-      };
-    });
-
-    // 📌 PC → Movimiento con mouse
-    canvas.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left - rect.width / 2;
-      mouse.y = e.clientY - rect.top - rect.height / 2;
-    });
-
-    // 📌 Móviles → Movimiento con dedo
-    canvas.addEventListener("touchmove", (e) => {
-      if (e.touches.length > 0) {
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        mouse.x = touch.clientX - rect.left - rect.width / 2;
-        mouse.y = touch.clientY - rect.top - rect.height / 2;
-      }
-    });
-
-    // 📌 Giroscopio (si está disponible)
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", (e) => {
-        // Rango normal: gamma (-90 a 90), beta (-180 a 180)
-        const gamma = e.gamma || 0; // izquierda/derecha
-        const beta = e.beta || 0;   // adelante/atrás
-
-        // Mapeamos valores a un rango "suave"
-        mouse.x = gamma * 10;
-        mouse.y = beta * 5;
-      });
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Ordenar imágenes según zIndex
-      const layers = Object.keys(config).sort(
-        (a, b) => config[a].zIndex - config[b].zIndex
-      );
-
-      // Dibujar en orden
-      layers.forEach((key) => {
-        const img = images[key];
-        const cfg = config[key];
-        ctx.save();
-        ctx.translate(cfg.x + mouse.x * cfg.speed, cfg.y + mouse.y * cfg.speed);
-        ctx.scale(cfg.scale, cfg.scale);
-        ctx.drawImage(img, 0, 0);
-        ctx.restore();
-      });
-
-      requestAnimationFrame(draw);
-    }
-  </script>
+    <script type="module">
+        import Navbar from './scripts/navbar.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = new Navbar();
+            navbar.loadNavbar();
+        });
+    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>

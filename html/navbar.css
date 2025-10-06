@@ -1,0 +1,99 @@
+nav {
+    display: flex;
+    justify-content: flex-start;
+    padding: 30px 0;
+    padding-left: 40px;
+}
+
+.navbar {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.navbar a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #ffaadf;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
+}
+
+.navbar a:hover::after,
+.navbar a.active::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Cambiado de right a left */
+    right: auto; /* Eliminamos el right */
+    z-index: 1000;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle.active {
+    transform: rotate(90deg);
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    transition: right 0.3s ease;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu .navbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+}
